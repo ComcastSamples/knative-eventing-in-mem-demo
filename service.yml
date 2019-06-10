@@ -1,0 +1,22 @@
+apiVersion: serving.knative.dev/v1alpha1
+kind: Service
+metadata:
+  name: knative-eventing-in-mem-demo
+spec:
+  runLatest:
+    configuration:
+      build:
+        serviceAccountName: sa-build-bot
+        source:
+          git:
+            url: https://github.com/ComcastSamples/knative-eventing-in-mem-demo.git
+            revision: master
+        template:
+          name: kaniko
+          arguments:
+          - name: IMAGE
+            value: docker.io/<replace-docker-acct>/knative-eventing-in-mem-demo:latest
+      revisionTemplate:
+        spec:
+          container:
+            image: docker.io/<replace-docker-acct>/knative-eventing-in-mem-demo:latest
